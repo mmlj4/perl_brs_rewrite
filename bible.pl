@@ -2,7 +2,7 @@
 
 # bible.pl
 
-# Version 0.9
+# Version 0.9.1
 # Joey Kelly
 # 2/25/2011
 
@@ -19,28 +19,35 @@
 use strict;
 use warnings;
 
+# change this to your home directory
 my $biblepath = '/home/oompaloompa/bin';
 my $bible = "$biblepath/KJV.txt";
+
 
 my $term1   = shift;
 my $term2   = shift;
 my $term3   = shift;
 my $term4   = shift;
+my $term5   = shift;
 
 $term1      = '?usage'  unless $term1;   # give some hint, don't let them quess
 $term2      = ''        unless $term2;
 $term3      = ''        unless $term3;
 $term4      = ''        unless $term4;
+$term5      = ''        unless $term5;
 
-chomp $term1;
-chomp $term2;
-chomp $term3;
-chomp $term3;
-chomp $term4;
+
+# sanitize all input
+$term1 = safechars($term1);
+$term2 = safechars($term2);
+$term3 = safechars($term3);
+$term4 = safechars($term4);
+$term5 = safechars($term5);
+
 
 if ($term1 eq '?usage') {
   print "usage:\n";
-  print "\tsearch (up to 3 terms):\t./bible.pl Lord Jesus Christ\n";
+  print "\tsearch (up to 4 terms):\t./bible.pl the Lord Jesus Christ\n";
   print "\treach chapter:\t\t./bible.pl ?ch Pro 31\n";
   print "\tread verse:\t\t./bible.pl ?vs Joh 3:16\n";
   print "\tread verse range:\t./bible.pl ?vs Pro 3:4-5\n";
@@ -74,6 +81,7 @@ if ($term1 eq '?usage') {
   $search     .= " | grep -i $term2" if $term2;
   $search     .= " | grep -i $term3" if $term3;
   $search     .= " | grep -i $term4" if $term4;
+  $search     .= " | grep -i $term5" if $term5;
   my @hits    = `$search`;
   my @chapter  = `$search`;
   foreach (@hits) {
@@ -85,3 +93,10 @@ if ($term1 eq '?usage') {
   print "$report\n";
 }
 
+
+
+sub safechars {
+  my $string = shift;
+  $string =~ tr/a-zA-Z0-9:?-//dc;
+  return $string;
+}
