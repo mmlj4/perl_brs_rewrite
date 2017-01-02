@@ -15,3 +15,8 @@ NOTE: I have made a few typo corrects in KJV.txt here and there
 (changing "rereward" to "rearward", for example), and will correct anything
 else I find that seems to be misspelled, etc.
 
+usage:
+        search (up to 4 terms): ./bible.pl the Lord Jesus Christ
+        reach chapter:          ./bible.pl ?ch Pro 31
+        read verse:             ./bible.pl ?vs Joh 3:16
+        read verse range:       ./bible.pl ?vs Pro 3:4-5
