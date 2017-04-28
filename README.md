@@ -20,3 +20,4 @@ Usage:
 *        read chapter:           ./bible.pl ?ch Pro 31
 *        read verse:             ./bible.pl ?vs Joh 3:16
 *        read verse range:       ./bible.pl ?vs Pro 3:4-5
+*        show book list:         ./bible.pl ?books
