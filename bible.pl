@@ -2,7 +2,7 @@
 
 # bible.pl
 
-# Version 0.9.1
+# Version 0.9.2
 # Joey Kelly
 # 2/25/2011
 
@@ -23,6 +23,7 @@ use warnings;
 my $biblepath = '/home/oompaloompa/bin';
 my $bible = "$biblepath/KJV.txt";
 
+my @books = qw(Gen Exo Lev Num Deu Jos Jdg Rth 1Sa 2Sa 1Ki 2Ki 1Ch 2Ch Ezr Neh Est Job Psa Pro Ecc Son Isa Jer Lam Eze Dan Hos Joe Amo Oba Jon Mic Nah Hab Zep Hag Zec Mal Mat Mar Luk Joh Act Rom 1Co 2Co Gal Eph Phi Col 1Th 2Th 1Ti 2Ti Tit Phm Heb Jam 1Pe 2Pe 1Jo 2Jo 3Jo Jud Rev);
 
 my $term1   = shift;
 my $term2   = shift;
@@ -30,7 +31,7 @@ my $term3   = shift;
 my $term4   = shift;
 my $term5   = shift;
 
-$term1      = '?usage'  unless $term1;   # give some hint, don't let them quess
+$term1      = '?usage'  unless $term1;   # give some hint, don't make them quess
 $term2      = ''        unless $term2;
 $term3      = ''        unless $term3;
 $term4      = ''        unless $term4;
@@ -45,12 +46,13 @@ $term4 = safechars($term4);
 $term5 = safechars($term5);
 
 
-if ($term1 eq '?usage') {
+if ( ($term1 eq '?usage') || ($term1 eq '?help') ) {
   print "usage:\n";
   print "\tsearch (up to 4 terms):\t./bible.pl the Lord Jesus Christ\n";
   print "\treach chapter:\t\t./bible.pl ?ch Pro 31\n";
   print "\tread verse:\t\t./bible.pl ?vs Joh 3:16\n";
   print "\tread verse range:\t./bible.pl ?vs Pro 3:4-5\n";
+  print "\tshow book list:\t\t./bible.pl ?books\n";
 } elsif ( ($term1 eq '?verse' || $term1 eq '?vs') && $term2 =~ /^\w{3}$/i && $term3 =~ /^(\d{1,3})(:\d{1,3})?(-\d{1,3})?$/ ) {
   my ($book, $chapter, $start, $end) = ($term2, $1, $2, $3);
   $start =~ s/://;
@@ -58,6 +60,7 @@ if ($term1 eq '?usage') {
   if ($end) {
     if ($end > $start) {
       for my $verse ($start .. $end) {
+        # before anyone complains about the backticks, please note that all input is sanitized. Moot.
         my $search = "grep -i \"^$book $chapter:$verse \" $bible";
         my $result = `$search`;
         print "$result";
@@ -76,6 +79,17 @@ if ($term1 eq '?usage') {
   foreach (@chapter) {
     print "$_";
   }
+} elsif ( $term1 eq '?books' ) {
+  print "Old Testament:\n";
+  foreach (0..38) {
+    print "$books[$_] ";
+  }
+  print "\n\n";
+  print "New Testament:\n";
+  foreach (39..65) {
+    print "$books[$_] ";
+  }
+  print "\n";
 } else {
   my $search  = "grep -i $term1 $bible";
   $search     .= " | grep -i $term2" if $term2;
