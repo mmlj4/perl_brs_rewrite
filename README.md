@@ -1,9 +1,10 @@
 perl-brs-rewrite
 Written by Joey Kelly
 
-This script is meant to emulate the wonderful Bible Retreival System software,
-written by Chip Chapin, but has sadly been abandoned. I can't get the original
-software to compile, though Debian and the BSDs have gotten it updated.
+This script is meant to emulate the wonderful Bible Retrieval System software,
+originally written by Chip Chapin, but which has sadly been abandoned.
+I can't get the original software to compile, though Debian and the BSDs
+have gotten it updated.
 
 Aside from the issue above, I have a found a few glitches in BRS, for example:
 
